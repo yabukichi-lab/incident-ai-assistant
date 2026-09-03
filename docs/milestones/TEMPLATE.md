@@ -5,8 +5,9 @@
 | 項目 | 内容 |
 |---|---|
 | 状態 | Not started |
-| 開始日 | YYYY-MM-DD |
-| 完了日 | - |
+| 計画期間 | YYYY-MM-DD〜YYYY-MM-DD |
+| 実開始日 | - |
+| 実完了日 | - |
 | 学習モード | Level X |
 | 前提マイルストーン | Mx-1 |
 | ロードマップ | `docs/ROADMAP.md` |
