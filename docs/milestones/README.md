@@ -101,7 +101,7 @@ M1の最初のサイクルをPROGRESS.mdへ設定
 - 今回扱わないこと
 - 完了後の理解確認
 
-詳細なコマンドやコードは、実際にサイクルを開始するときにCodexが提示します。
+詳細なコマンドやコードは、実際にサイクルを開始するときにClaude Codeが提示します。
 
 ## 7. サイクルの状態
 
@@ -138,12 +138,20 @@ Skipped
 7. `docs/ROADMAP.md` と `docs/PROGRESS.md` を更新する
 8. 次のマイルストーン詳細を作る
 
-## 10. Codexへの依頼例
+## 10. Claude Codeへの依頼方法
+
+マイルストーン開始は、次のスキルで依頼します。
+
+```text
+/start-milestone M1
+```
+
+スキルの本文は `.claude/skills/start-milestone/SKILL.md` にあります。手動で依頼する場合の文面は次の通りです。
 
 ```text
 M1を開始します。
 
-README.md、AGENTS.md、docs/ROADMAP.md、docs/PROGRESS.md、
+README.md、CLAUDE.md、docs/ROADMAP.md、docs/PROGRESS.md、
 docs/milestones/TEMPLATE.md、完了済みのM0.mdを確認してください。
 
 M1の到達状態と通過条件を変えずに、現在の実装状態に合わせて
