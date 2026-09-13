@@ -28,7 +28,7 @@
 
 ## 4. 直近の変更（2026-09-13）
 
-コーディングエージェントをCodexからClaude Codeへ切り替えた。`AGENTS.md` を `CLAUDE.md` へ改名し、各文書のCodex表記を置換、`.claude/` にpermission modeの設定と `/resume`・`/start-milestone` スキルを追加した。
+コーディングエージェントをCodexからClaude Codeへ切り替えた。`AGENTS.md` を `CLAUDE.md` へ改名し、各文書のCodex表記を置換、`.claude/` にpermission modeの設定と `/resume-cycle`・`/start-milestone` スキルを追加した。
 
 同日、目指すエンジニア像をREADMEへ、本人が手で行う作業の基準をCLAUDE.md第4.1節へ追記した。ロードマップにはGit・差分レビュー、静的検査（M1）、最小CI（M3）、生成品質評価（M6）、プロンプトインジェクション対策（M7・M8）を追加した。アプリの実装とM0-C1の完了状態は変えていない。詳細は [履歴](history/M0.md)。
 
@@ -44,7 +44,7 @@ M0-C1の残り作業では、テスト実行と起動・停止確認を本人が
 
 ## 6. 再開方法
 
-Claude Codeで `/resume` を実行する。スキル本文は `.claude/skills/resume/SKILL.md` にある。手動で指示する場合の文面は次の通り。
+Claude Codeで `/resume-cycle` を実行する。スキル本文は `.claude/skills/resume-cycle/SKILL.md` にある。手動で指示する場合の文面は次の通り。
 
 ```text
 CLAUDE.mdの読み込み規則に従い、docs/PROGRESS.mdの「次に行う1ステップ」から再開してください。

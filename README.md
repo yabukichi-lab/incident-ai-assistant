@@ -138,7 +138,7 @@ Webサーバー、DBエンジン、認証、暗号などをゼロから作りま
 ├── CLAUDE.md                     # Claude Codeが従う進行・実装ルール（セッション開始時に自動読込）
 ├── .claude/
 │   ├── settings.json             # permission modeなどの共有設定
-│   └── skills/                   # /resume、/start-milestone の定型プロンプト
+│   └── skills/                   # /resume-cycle、/start-milestone の定型プロンプト
 └── docs/
     ├── ROADMAP.md                # M0〜M9の全体像と通過条件
     ├── SCHEDULE.md               # 全体期間、マイルストーン期間、週次目標
@@ -227,10 +227,10 @@ M0では、LLM、RAG、認証、エージェント、非同期ジョブ、PDF・
 `CLAUDE.md` はセッション開始時に自動で読み込まれます。新しいセッションでは、次のスキルから開始します。
 
 ```text
-/resume
+/resume-cycle
 ```
 
-スキルの本文は `.claude/skills/resume/SKILL.md` にあります。マイルストーンを新しく開始するときは `/start-milestone M1` のように番号を付けて実行します。
+スキルの本文は `.claude/skills/resume-cycle/SKILL.md` にあります。マイルストーンを新しく開始するときは `/start-milestone M1` のように番号を付けて実行します。
 
 permission modeは `default` を使い、変更の実行前に承認を求める運用を維持します。
 

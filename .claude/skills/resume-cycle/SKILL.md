@@ -1,5 +1,5 @@
 ---
-name: resume
+name: resume-cycle
 description: 開発セッションを再開する。docs/PROGRESS.md の「次に行う1ステップ」から、CLAUDE.md の読み込み規則と承認規則に従って進める。
 disable-model-invocation: true
 ---
