@@ -7,28 +7,30 @@
 | 項目 | 現在値 |
 |---|---|
 | 現在のマイルストーン | M0: 開発基盤とエンドツーエンド疎通 |
-| 現在のサイクル | M0-C1: バックエンドの最小health API |
-| 状態 | In progress（実装と記録は完了。残りは本人の手元での `application` 応答確認のみ） |
+| 現在のサイクル | M0-C2: PostgreSQLとバックエンドの疎通 |
+| 状態 | Not started（M0-C1は2026-09-14に完了。C1の変更は `develop` への取り込み待ち） |
 | 学習モード | Level 1: Follow |
 | 第一完成地点 | M8 |
-| 詳細計画 | [M0](milestones/M0.md) の基本情報・スコープ・M0-C1 |
+| 詳細計画 | [M0](milestones/M0.md) の基本情報・スコープ・M0-C2 |
 
 ## 2. 次に行う1ステップ
 
-`application` フィールド追加を本人の手元で確認し、M0-C1を完了する。ブランチ `claude/sweet-einstein-5j4w1u` を取得し、`backend/` で `uv run pytest`（期待: 1 passed）と、起動中のサーバーへの `curl http://127.0.0.1:8000/health`（期待: `{"backend":"ok","application":"incident-ai-assistant"}`）を実行する。
+M0-C2を開始する。最初の手順は、Docker ComposeへPostgreSQLを定義し、`.env.example` にダミーの接続設定を追加すること。Claude Codeが目的・理由・対象・変更内容・確認方法を提示し、承認後に `docker-compose.yml`（または `compose.yaml`）と `.env.example` を作る。起動（`docker compose up -d`）と `psql` での `SELECT 1` は本人が手で行う。
 
-完了確認：2キーの応答を報告し、[M0-C1](milestones/M0.md#m0-c1-バックエンドの最小health-api) の学習確認にチェックと完了日を記入する。完了後、M0-C2の最初の手順（Docker ComposeへのPostgreSQL定義と `.env.example`）へ進む。
+前提：ブランチ `claude/sweet-einstein-5j4w1u` のM0-C1の変更をPRで `develop` へ取り込んでから始める。Dockerの起動確認はまだ実施していない（[M0](milestones/M0.md) 第4節）。
+
+完了確認：`docker compose ps` でPostgreSQLがrunning、`psql` から `SELECT 1` が返る。
 
 ## 3. 完了済み・未解決事項
 
-- 完了済み：Pythonとuvによる環境準備、health APIの実装、正常応答の確認（ユーザーの問題解消報告に基づく。当時のCodexによるHTTP再検証は未実施）。
-- M0-C1の残り：本人の手元での `application` 応答確認と完了日の記入。詳細チェックは [M0-C1](milestones/M0.md#m0-c1-バックエンドの最小health-api)。
+- 完了済み：M0-C1（環境準備、health API、pytest、停止・再起動確認、`application` 追加）。完了記録は [M0-C1](milestones/M0.md#m0-c1-バックエンドの最小health-api)。
+- M0-C2の残り：全項目。詳細は [M0-C2](milestones/M0.md#m0-c2-postgresqlとバックエンドの疎通)。詳細チェックは [M0-C1](milestones/M0.md#m0-c1-バックエンドの最小health-api)。
 - ブロッカー：なし。
 - 未理解事項：辞書からJSONへの変換をFastAPIが担当すること（本人はUvicornと回答）。詳細は [L-M0-004の後日の振り返り](learning/M0.md#l-m0-004)。
 
 ## 4. 直近の変更（2026-09-14）
 
-本人が停止・再起動の再現確認をcurlで行い、200、接続拒否、200を確認した。Claude Codeが `backend/main.py` に `application` フィールドを追加し、テストの期待値を更新した。M0-C1の完了記録の下書きと [L-M0-005](learning/M0.md#l-m0-005)（TestClientと実行ディレクトリ）を記録した。
+M0-C1を完了した。本人が停止・再起動の再現確認をcurlで行い、200、接続拒否、200を確認し、`application` 追加後の2キー応答も手元で確認した。Claude Codeが `backend/main.py` に `application` フィールドを追加し、テストの期待値を更新した。M0-C1の完了記録の下書きと [L-M0-005](learning/M0.md#l-m0-005)（TestClientと実行ディレクトリ）を記録した。
 
 同日、本人が手元で `uv run pytest` を実行し1 passedを確認した。テストコードの各行の役割も説明でき、受け入れ条件「health APIのテストが通る」を完了した。変更はPR #2として `develop` へマージ済み。
 
