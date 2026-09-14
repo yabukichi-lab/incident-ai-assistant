@@ -5,4 +5,4 @@ app = FastAPI()
 
 @app.get("/health")
 def health():
-    return {"backend": "ok"}
+    return {"backend": "ok", "application": "incident-ai-assistant"}
