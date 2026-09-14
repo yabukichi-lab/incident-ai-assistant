@@ -8,25 +8,35 @@
 |---|---|
 | 現在のマイルストーン | M0: 開発基盤とエンドツーエンド疎通 |
 | 現在のサイクル | M0-C1: バックエンドの最小health API |
-| 状態 | In progress（正常応答確認済み。9/9に処理経路を説明済み、本人による説明の確認待ち） |
+| 状態 | In progress（正常応答確認済み。9/14に処理経路の学習確認を完了。health APIのテストを追加済みで、本人の手元での実行待ち） |
 | 学習モード | Level 1: Follow |
 | 第一完成地点 | M8 |
 | 詳細計画 | [M0](milestones/M0.md) の基本情報・スコープ・M0-C1 |
 
 ## 2. 次に行う1ステップ
 
-処理経路の確認を仕上げる。Uvicorn、FastAPI、`health()`、JSON応答の関係は9/9に説明済み（[L-M0-004](learning/M0.md#l-m0-004)）。次は、本人が回答を見ずに `GET /health` からJSON応答までの経路を [backend/main.py](../backend/main.py) と対応付けて短く説明し、結果を学習記録の「後日の振り返り」へ残す。
+health APIのテストを本人の手元で実行する。`backend/` で次を実行し、`1 passed` になることを確認する。
 
-完了確認：URLと `@app.get("/health")` の対応、Uvicorn・FastAPI・`health()` の役割、Pythonの辞書からJSON応答になる流れを本人が説明できる。完了後、health APIのpytest追加へ進む。
+```bash
+uv sync
+uv run pytest
+```
+
+完了確認：`1 passed` を報告し、[backend/tests/test_health.py](../backend/tests/test_health.py) の各行が何をしているかを短く説明できる。完了後、M0-C1の残り（停止・再起動の再現確認、`application` フィールド追加）へ進む。
 
 ## 3. 完了済み・未解決事項
 
 - 完了済み：Pythonとuvによる環境準備、health APIの実装、正常応答の確認（ユーザーの問題解消報告に基づく。当時のCodexによるHTTP再検証は未実施）。
-- M0-C1の残り：本人による処理経路の説明、自動テスト、停止・再起動確認、`application` フィールド追加。詳細チェックは [M0-C1](milestones/M0.md#m0-c1-バックエンドの最小health-api)。
+- M0-C1の残り：自動テストの本人による実行、停止・再起動確認、`application` フィールド追加。詳細チェックは [M0-C1](milestones/M0.md#m0-c1-バックエンドの最小health-api)。
 - ブロッカー：なし。
-- 未理解事項：本書の従来の記録上はなし。学習経緯や個別の理解状況は必要に応じて [M0の学習記録](learning/M0.md) を確認する。
+- 未理解事項：辞書からJSONへの変換をFastAPIが担当すること（本人はUvicornと回答）。詳細は [L-M0-004の後日の振り返り](learning/M0.md#l-m0-004)。
 
-## 4. 直近の変更（2026-09-13）
+## 4. 直近の変更（2026-09-14）
+
+本人が `GET /health` からJSON応答までの処理経路を説明し、M0-C1の学習確認を完了した。JSON変換の担当は未理解事項として学習記録に残した。
+Claude Codeが `backend/tests/test_health.py`（TestClientで `/health` の200応答と本文を検証する1件）を追加し、`backend/pyproject.toml` に開発用依存のpytestとhttpx2、pytestの `testpaths`・`pythonpath` 設定を加えた。httpx2は、現行のStarletteがTestClient用にhttpxではなくhttpx2を推奨するため採用した。
+
+### 2026-09-13
 
 コーディングエージェントをCodexからClaude Codeへ切り替えた。`AGENTS.md` を `CLAUDE.md` へ改名し、各文書のCodex表記を置換、`.claude/` にpermission modeの設定と `/resume-cycle`・`/start-milestone` スキルを追加した。
 
