@@ -8,27 +8,29 @@
 |---|---|
 | 現在のマイルストーン | M0: 開発基盤とエンドツーエンド疎通 |
 | 現在のサイクル | M0-C1: バックエンドの最小health API |
-| 状態 | In progress（テストまで完了。残りは停止・再起動の再現確認と `application` フィールド追加） |
+| 状態 | In progress（実装と記録は完了。残りは本人の手元での `application` 応答確認のみ） |
 | 学習モード | Level 1: Follow |
 | 第一完成地点 | M8 |
 | 詳細計画 | [M0](milestones/M0.md) の基本情報・スコープ・M0-C1 |
 
 ## 2. 次に行う1ステップ
 
-停止・再起動の再現確認を本人が手で行う。`backend/` で `uv run uvicorn main:app --reload` を起動し、別ターミナルの `curl -i http://127.0.0.1:8000/health` で200と `{"backend":"ok"}` を確認する。次にCtrl+Cで停止して同じcurlを実行し、HTTP応答ではなく接続拒否（`Connection refused`）になることを確認する。最後に再起動して最初と同じ結果に戻ることを確認する。
+`application` フィールド追加を本人の手元で確認し、M0-C1を完了する。ブランチ `claude/sweet-einstein-5j4w1u` を取得し、`backend/` で `uv run pytest`（期待: 1 passed）と、起動中のサーバーへの `curl http://127.0.0.1:8000/health`（期待: `{"backend":"ok","application":"incident-ai-assistant"}`）を実行する。
 
-完了確認：3回のcurl結果（200、接続拒否、200）を報告できる。完了後、M0-C1最後の小さな変更課題である `application` フィールド追加へ進む。
+完了確認：2キーの応答を報告し、[M0-C1](milestones/M0.md#m0-c1-バックエンドの最小health-api) の学習確認にチェックと完了日を記入する。完了後、M0-C2の最初の手順（Docker ComposeへのPostgreSQL定義と `.env.example`）へ進む。
 
 ## 3. 完了済み・未解決事項
 
 - 完了済み：Pythonとuvによる環境準備、health APIの実装、正常応答の確認（ユーザーの問題解消報告に基づく。当時のCodexによるHTTP再検証は未実施）。
-- M0-C1の残り：停止・再起動確認、`application` フィールド追加。詳細チェックは [M0-C1](milestones/M0.md#m0-c1-バックエンドの最小health-api)。
+- M0-C1の残り：本人の手元での `application` 応答確認と完了日の記入。詳細チェックは [M0-C1](milestones/M0.md#m0-c1-バックエンドの最小health-api)。
 - ブロッカー：なし。
 - 未理解事項：辞書からJSONへの変換をFastAPIが担当すること（本人はUvicornと回答）。詳細は [L-M0-004の後日の振り返り](learning/M0.md#l-m0-004)。
 
 ## 4. 直近の変更（2026-09-14）
 
-本人が手元で `uv run pytest` を実行し1 passedを確認した。テストコードの各行の役割も説明でき、受け入れ条件「health APIのテストが通る」を完了した。変更はPR #2として `develop` へマージ済み。
+本人が停止・再起動の再現確認をcurlで行い、200、接続拒否、200を確認した。Claude Codeが `backend/main.py` に `application` フィールドを追加し、テストの期待値を更新した。M0-C1の完了記録の下書きと [L-M0-005](learning/M0.md#l-m0-005)（TestClientと実行ディレクトリ）を記録した。
+
+同日、本人が手元で `uv run pytest` を実行し1 passedを確認した。テストコードの各行の役割も説明でき、受け入れ条件「health APIのテストが通る」を完了した。変更はPR #2として `develop` へマージ済み。
 
 同日、本人が `GET /health` からJSON応答までの処理経路を説明し、M0-C1の学習確認を完了した。JSON変換の担当は未理解事項として学習記録に残した。
 Claude Codeが `backend/tests/test_health.py`（TestClientで `/health` の200応答と本文を検証する1件）を追加し、`backend/pyproject.toml` に開発用依存のpytestとhttpx2、pytestの `testpaths`・`pythonpath` 設定を加えた。httpx2は、現行のStarletteがTestClient用にhttpxではなくhttpx2を推奨するため採用した。
